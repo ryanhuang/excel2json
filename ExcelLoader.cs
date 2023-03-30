@@ -2,6 +2,7 @@
 using System.IO;
 using System.Data;
 using ExcelDataReader;
+using System.Text;
 
 namespace excel2json {
     /// <summary>
@@ -17,7 +18,8 @@ namespace excel2json {
                 // Auto-detect format, supports:
                 //  - Binary Excel files (2.0-2003 format; *.xls)
                 //  - OpenXml Excel files (2007 format; *.xlsx)
-                using (var reader = ExcelReaderFactory.CreateReader(stream)) {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
                     // Use the AsDataSet extension method
                     // The result of each spreadsheet is in result.Tables
                     var result = reader.AsDataSet(createDataSetReadConfig(headerRow));

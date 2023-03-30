@@ -148,7 +148,7 @@ namespace excel2json
                             object cellJsonObj = JsonConvert.DeserializeObject(cellText);
                             if (cellJsonObj != null)
                                 value = cellJsonObj;
-                        }
+                        }                        
                         catch (Exception exp)
                         {
                         }
@@ -162,8 +162,8 @@ namespace excel2json
                 else if (value.GetType() == typeof(double))
                 { // 去掉数值字段的“.0”
                     double num = (double)value;
-                    if ((int)num == num)
-                        value = (int)num;
+                    if ((long)num == num)
+                        value = (long)num;
                 }
 
                 //全部转换为string

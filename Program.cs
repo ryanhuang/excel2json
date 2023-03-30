@@ -3,7 +3,8 @@ using System.IO;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-
+using CommandLine;
+using System.Drawing;
 
 namespace excel2json
 {
@@ -12,6 +13,26 @@ namespace excel2json
     /// </summary>
     sealed partial class Program
     {
+        public class CustomEncodingProvider : EncodingProvider
+        {
+            public override Encoding GetEncoding(int codepage)
+            {
+                if (codepage == 1252)
+                {
+                    return Encoding.ASCII;
+                }
+                return null;
+            }
+
+            public override Encoding GetEncoding(string name)
+            {
+                if (name == "Windows-1252")
+                {
+                    return Encoding.ASCII;
+                }
+                return null;
+            }
+        }
         /// <summary>
         /// 应用程序入口
         /// </summary>
@@ -19,10 +40,14 @@ namespace excel2json
         [STAThread]
         static void Main(string[] args)
         {
+            Encoding.RegisterProvider(new CustomEncodingProvider());
             if (args.Length <= 0)
             {
                 //-- GUI MODE ----------------------------------------------------------
                 Console.WriteLine("Launch excel2json GUI Mode...");
+                Application.EnableVisualStyles();
+                Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+                Application.SetDefaultFont(new Font(new FontFamily("Microsoft Yahei"), 9f));
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI.MainForm());
@@ -32,10 +57,11 @@ namespace excel2json
                 //-- COMMAND LINE MODE -------------------------------------------------
 
                 //-- 分析命令行参数
-                var options = new Options();
+                
                 var parser = new CommandLine.Parser(with => with.HelpWriter = Console.Error);
 
-                if (parser.ParseArgumentsStrict(args, options, () => Environment.Exit(-1)))
+
+                parser.ParseArguments<Options>(args).WithParsed<Options>(options =>
                 {
                     //-- 执行导出操作
                     try
@@ -56,7 +82,8 @@ namespace excel2json
                         Console.WriteLine("Error: " + exp.Message);
                     }
                 }
-            }// end of else
+                );
+            }// end f else
         }
 
         /// <summary>
