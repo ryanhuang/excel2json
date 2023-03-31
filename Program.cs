@@ -129,19 +129,32 @@ namespace excel2json
                 exportPath = Path.ChangeExtension(excelPath, ".json");
             }
 
-            //-- Load Excel
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             ExcelLoader excel = new ExcelLoader(excelPath, header);
+            stopwatch.Stop();
+            Console.WriteLine($"    load excel elapsed: {stopwatch.ElapsedMilliseconds}");
 
             //-- export
+            stopwatch.Restart();
             JsonExporter exporter = new JsonExporter(excel, options.Lowcase, options.ExportArray, dateFormat, options.ForceSheetName, header, options.ExcludePrefix, options.CellJson, options.AllString);
-            exporter.SaveToFile(exportPath, cd);
+            stopwatch.Stop();
+            Console.WriteLine($"    convert to json elapsed: {stopwatch.ElapsedMilliseconds}");
 
+            stopwatch.Restart();
+            exporter.SaveToFile(exportPath, cd);
+            stopwatch.Stop();
+            Console.WriteLine($"    save json elapsed: {stopwatch.ElapsedMilliseconds}");
+
+            stopwatch.Restart();
             //-- 生成C#定义文件
             if (options.CSharpPath != null && options.CSharpPath.Length > 0)
             {
                 CSDefineGenerator generator = new CSDefineGenerator(excelName, excel, options.ExcludePrefix);
                 generator.SaveToFile(options.CSharpPath, cd);
             }
+            stopwatch.Stop();
+            Console.WriteLine($"    convert cs elapsed: {stopwatch.ElapsedMilliseconds}");
         }
     }
 }

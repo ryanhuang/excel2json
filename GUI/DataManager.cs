@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace excel2json.GUI
@@ -90,13 +91,22 @@ namespace excel2json.GUI
             mEncoding = cd;
 
             //-- Load Excel
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             ExcelLoader excel = new ExcelLoader(excelPath, header);
+            stopwatch.Stop();
+            Console.WriteLine($"load excel elapsed: {stopwatch.ElapsedMilliseconds}");
 
+            stopwatch.Restart();            
             //-- C# 结构体定义
             mCSharp = new CSDefineGenerator(excelPath, excel, options.ExcludePrefix);
+            Console.WriteLine($"generate cs elapsed: {stopwatch.ElapsedMilliseconds}");
+
 
             //-- 导出JSON
+            stopwatch.Restart();
             mJson = new JsonExporter(excel, options.Lowcase, options.ExportArray, options.DateFormat, options.ForceSheetName, header, options.ExcludePrefix, options.CellJson, options.AllString);
+            Console.WriteLine($"generate json elapsed: {stopwatch.ElapsedMilliseconds}");
         }
     }
 }
