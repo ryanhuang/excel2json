@@ -199,7 +199,7 @@ namespace excel2json
         public void initColumnCache()
         {
             var sheet = DataSet;            
-            for (int i = 0; i < sheet.Columns.Count - 1; i++)
+            for (int i = 0; i < sheet.Columns.Count; i++)
             {
                 DataColumn column = sheet.Columns[i];                
                 // 不满足条件的columen跳过

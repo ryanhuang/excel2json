@@ -13,26 +13,7 @@ namespace excel2json
     /// </summary>
     sealed partial class Program
     {
-        public class CustomEncodingProvider : EncodingProvider
-        {
-            public override Encoding GetEncoding(int codepage)
-            {
-                if (codepage == 1252)
-                {
-                    return Encoding.ASCII;
-                }
-                return null;
-            }
 
-            public override Encoding GetEncoding(string name)
-            {
-                if (name == "Windows-1252")
-                {
-                    return Encoding.ASCII;
-                }
-                return null;
-            }
-        }
         /// <summary>
         /// 应用程序入口
         /// </summary>
@@ -40,7 +21,7 @@ namespace excel2json
         [STAThread]
         static void Main(string[] args)
         {
-            Encoding.RegisterProvider(new CustomEncodingProvider());
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             if (args.Length <= 0)
             {
                 //-- GUI MODE ----------------------------------------------------------

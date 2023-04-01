@@ -2,7 +2,7 @@
 using System.IO;
 using System.Data;
 using ExcelDataReader;
-using System.Text;
+
 
 
 namespace excel2json {
@@ -14,7 +14,8 @@ namespace excel2json {
 
         // TODO: add Sheet Struct Define
 
-        public ExcelLoader(string filePath, int headerRow) {
+        public ExcelLoader(string filePath, int headerRow) 
+        {            
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
 
                 var ms = new MemoryStream();
@@ -40,12 +41,14 @@ namespace excel2json {
             }
         }
 
-        private ExcelDataSetConfiguration createDataSetReadConfig(int headerRow) {
+        private ExcelDataSetConfiguration createDataSetReadConfig(int headerRow) 
+        {
+
             var tableConfig = new ExcelDataTableConfiguration() {
                 // Gets or sets a value indicating whether to use a row from the 
                 // data as column names.
                 UseHeaderRow = true,
-
+                
                 // Gets or sets a callback to determine whether to include the 
                 // current row in the DataTable.
                 //FilterRow = (rowReader) => {
