@@ -4,6 +4,7 @@ using System.Data;
 using ExcelDataReader;
 using System.Text;
 
+
 namespace excel2json {
     /// <summary>
     /// 将 Excel 文件(*.xls 或者 *.xlsx)加载到内存 DataSet
@@ -15,9 +16,10 @@ namespace excel2json {
 
         public ExcelLoader(string filePath, int headerRow) {
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                // Auto-detect format, supports:
-                //  - Binary Excel files (2.0-2003 format; *.xls)
-                //  - OpenXml Excel files (2007 format; *.xlsx)
+
+                var ms = new MemoryStream();
+                stream.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
                     // Use the AsDataSet extension method

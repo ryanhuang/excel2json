@@ -172,8 +172,10 @@ namespace excel2json
                 else if (value.GetType() == typeof(double))
                 { // 去掉数值字段的“.0”
                     double num = (double)value;
-                    if ((long)num == num)
-                        value = (long)num;
+                    if ((ulong)num == num)
+                    {
+                        value = Convert.ChangeType(value, column.dataType);
+                    }                        
                 }
                 //全部转换为string
                 if (_options.allString && !(value is string))
