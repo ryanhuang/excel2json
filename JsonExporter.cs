@@ -172,7 +172,7 @@ namespace excel2json
                 else if (value.GetType() == typeof(double))
                 { // 去掉数值字段的“.0”
                     double num = (double)value;
-                    if ((ulong)num == num)
+                    if (num % 1 == 0)
                     {
                         value = Convert.ChangeType(value, column.dataType);
                     }                        
