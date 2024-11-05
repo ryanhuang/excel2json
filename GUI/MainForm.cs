@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
+#pragma warning disable CA1416
 namespace excel2json.GUI
 {
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using CommandLine;
 using System.Drawing;
-
+#pragma warning disable CA1416
 namespace excel2json
 {
     /// <summary>

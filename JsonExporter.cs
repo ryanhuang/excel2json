@@ -159,8 +159,9 @@ namespace excel2json
                             if (cellJsonObj != null)
                                 value = cellJsonObj;
                         }
-                        catch (Exception exp)
+                        catch (Exception _)
                         {
+                            Console.Write(_.ToString());
                         }
                     }
                 }
